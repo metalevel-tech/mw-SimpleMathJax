@@ -15,7 +15,8 @@ class SimpleMathJaxHooks {
 		$wgOut->addJsConfigVars( 'wgSmjDisplayAlign', $wgSmjDisplayAlign );
 
 		$parser->setHook( 'math', __CLASS__ . '::renderMath' );
-		if( $wgSmjUseChem ) $parser->setHook( 'chem', __CLASS__ . '::renderChem' );	}
+		if( $wgSmjUseChem ) $parser->setHook( 'chem', __CLASS__ . '::renderChem' );
+	}
 
 	public static function renderMath($tex, array $args, Parser $parser, PPFrame $frame ) {
 		global $wgSmjWrapDisplaystyle;
