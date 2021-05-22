@@ -1,6 +1,6 @@
 # Purpose of this fork 
 
-In this version of [Extension:SimpleMathJax](https://www.mediawiki.org/wiki/Extension:SimpleMathJax) is added some integration with [Extension:VisualEditor](https://www.mediawiki.org/wiki/Extension:VisualEditor).
+In this version of [Extension:SimpleMathJax](https://www.mediawiki.org/wiki/Extension:SimpleMathJax) is added an integration with [Extension:VisualEditor](https://www.mediawiki.org/wiki/Extension:VisualEditor).
 
 For this purpose on the base of the original file [`ext.SimpleMathJax.js`](resources/ext.SimpleMathJax.js) is created the file [`ext.SimpleMathJax.VE.js`](resources/ext.SimpleMathJax.VE.js) where along with `mw.hook('wikipage.categories')` is used also [`mw.hook('ve.activationComplete')`](https://www.mediawiki.org/wiki/VisualEditor/Gadgets#Running_code_after_VisualEditor_is_activated). Within this hook the method [`MathJax.typesetPromise()`](http://docs.mathjax.org/en/latest/web/typeset.html) is engaged. 
 In this way the math expressions will be rendered within VisualEditor. When you are making some changes in the math expressions you will need to press `Ctrl`+`Shift` in order to render them again.
@@ -13,7 +13,7 @@ There are two variants of usage:
 
 	![MediaWiki:InternalWhitelist Example](.readme-images/SimpleMathJax-Stand-Alone.gif)
 
-2. **SimpleMathJax** along with [Extension:Math](https://www.mediawiki.org/wiki/Extension:Math). In this scenario you need to **load Extension:Math before Extension:Math** in your `LocalSettings.php`. Here is a sample code from my wiki:
+2. **SimpleMathJax** along with [Extension:Math](https://www.mediawiki.org/wiki/Extension:Math). In this scenario you need to **load Extension:Math before Extension:SimpleMathJax** in your `LocalSettings.php`. Here is a sample code from my wiki:
 
 	```php
 	wfLoadExtension( 'Math' );
@@ -21,14 +21,14 @@ There are two variants of usage:
 
 	// not mandatory option: 
 	// add `class="mwe-math-element"` to the SimpleMathJax's output
-	// in order to apply the same CSS code as extension Math
+	// in order to apply the same CSS code as of extension Math
 	function SimpleMathJaxAddClass( array &$attributes, $tex ) {
         $attributes['class'] = 'mwe-math-element'; 
 	}
 	$wgHooks['SimpleMathJaxAttributes'][] = 'SimpleMathJaxAddClass';
 	```
 
-	In this case we will use Extension:Math features but the formulas will be rendered by Extension:SimpleMathJax. Here is a demo:
+	In this case we will use Extension:Math's features but the formulas will be rendered by Extension:SimpleMathJax. Here is a demo:
 
 	![MediaWiki:InternalWhitelist Example](.readme-images/SimpleMathJax-Along-With-Math.gif)
 
