@@ -146,23 +146,5 @@
         }
         document.onkeydown = KeyPress;
     });
-    /**
-     * Yhis is too heavy
-    mw.hook( 've.activationComplete' ).add( function () {
-        setInterval(async function () {
-            await MathJax.typesetPromise();
-        }, 5000);
-    });
-    mw.hook( 've.activationComplete' ).add( function () {
-        setTimeout(async function () {
-            await MathJax.typesetPromise();
-        }, 5000);
-    });
-    mw.hook( 've.activationComplete' ).add( function () {
-        $("span:contains('[math]')").click( function(){
-            MathJax.typesetPromise();
-        });
-    });
-    **/
 }( jQuery )); // Край на скрипта
 
