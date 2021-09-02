@@ -3,7 +3,7 @@
 In this version of [Extension:SimpleMathJax](https://www.mediawiki.org/wiki/Extension:SimpleMathJax) is added an integration with [Extension:VisualEditor](https://www.mediawiki.org/wiki/Extension:VisualEditor).
 
 For this purpose on the base of the original file [`ext.SimpleMathJax.js`](resources/ext.SimpleMathJax.js) is created the file [`ext.SimpleMathJax.VE.js`](resources/ext.SimpleMathJax.VE.js) where along with `mw.hook('wikipage.categories')` is used also [`mw.hook('ve.activationComplete')`](https://www.mediawiki.org/wiki/VisualEditor/Gadgets#Running_code_after_VisualEditor_is_activated). Within this hook the method [`MathJax.typesetPromise()`](http://docs.mathjax.org/en/latest/web/typeset.html) is engaged. 
-In this way the math expressions will be rendered within VisualEditor. When you are making some changes in the math expressions you will need to press `Ctrl`+`Shift` in order to render them again.
+In this way the math expressions will be rendered within VisualEditor. <strike>When you are making some changes in the math expressions you will need to press `Ctrl`+`Shift` in order to render them again.</strike> When you are making some changes in the math expressions they will be rendered automatically after 100 ms.
 
 There are two variants of usage:
 
