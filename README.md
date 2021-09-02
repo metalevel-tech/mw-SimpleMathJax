@@ -1,11 +1,16 @@
 # Purpose of this fork 
 
-In this version of [Extension:SimpleMathJax](https://www.mediawiki.org/wiki/Extension:SimpleMathJax) is added an integration with [Extension:VisualEditor](https://www.mediawiki.org/wiki/Extension:VisualEditor).
+In this version of [Extension:SimpleMathJax](https://www.mediawiki.org/wiki/Extension:SimpleMathJax) is added an integration with [Extension:VisualEditor](https://www.mediawiki.org/wiki/Extension:VisualEditor). The current master branch is tested with MediaWiki 1.35 and the skins: Vector, Minerva Neue, Timeless.
 
 For this purpose on the base of the original file [`ext.SimpleMathJax.js`](resources/ext.SimpleMathJax.js) is created the file [`ext.SimpleMathJax.VE.js`](resources/ext.SimpleMathJax.VE.js) where along with `mw.hook('wikipage.categories')` is used also [`mw.hook('ve.activationComplete')`](https://www.mediawiki.org/wiki/VisualEditor/Gadgets#Running_code_after_VisualEditor_is_activated). Within this hook the method [`MathJax.typesetPromise()`](http://docs.mathjax.org/en/latest/web/typeset.html) is engaged. 
-In this way the math expressions will be rendered within VisualEditor. <strike>When you are making some changes in the math expressions you will need to press `Ctrl`+`Shift` in order to render them again.</strike> When you are making some changes in the math expressions they will be rendered automatically after a short while.
+In this way the math expressions will be rendered within VisualEditor. 
 
-There are two variants of usage:
+Within `extension.json` the resource module target is set to: mobile and desktop. Thus `ext.SimpleMathJax.VE.js` become available on booth.
+
+When you are making some changes in the math expressions they will be rendered automatically after a short while (on last key-up, also on mouse move or click).
+
+
+There are two variants of usage (note `Ctrl`+`Shift` is not longer needed):
 
 1. **SimpleMathJax** stand alone usage.
 
@@ -31,6 +36,7 @@ There are two variants of usage:
 	In this case we will use Extension:Math's features but the formulas will be rendered by Extension:SimpleMathJax. Here is a demo:
 
 	![MediaWiki:InternalWhitelist Example](.readme-images/SimpleMathJax-Along-With-Math.gif)
+
 
 # THE ORIGINAL README.md
 

@@ -1,4 +1,6 @@
-(function( $ ) { // Начало на скрипта
+( function ( $ ) {
+    // We don't need the argument $content, so the function is called without it, see below.
+    // https://doc.wikimedia.org/mediawiki-core/master/js/#!/api/mw.util-property-S-content
     function SimpleMathJax ( $content ) {
         window.MathJax = {
             tex: {
@@ -124,45 +126,49 @@
                 }
             }
         };
+
         (function () {
-            var script = document.createElement('script');
-            script.src = mw.config.get('wgSmjUseCdn')
-            ? 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
-            : mw.config.get('wgExtensionAssetsPath') + '/SimpleMathJax/resources/MathJax/es5/tex-chtml.js';
-            script.async = true;
-            document.head.appendChild(script);
+            if ( ! document.getElementById('mathJax-es5') ) {
+                var script = document.createElement('script');
+                script.id = 'mathJax-es5';
+                script.src = mw.config.get('wgSmjUseCdn')
+                    ? 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
+                    : mw.config.get('wgExtensionAssetsPath') + '/SimpleMathJax/resources/MathJax/es5/tex-chtml.js';
+                script.async = true;
+                document.head.appendChild(script);
+            }
         })();
     }
 
+    // Fix the gray color of the formulas in VE
+    $('head').append('<style>span.mwe-math-element { opacity: 1 !important; }</style>');
+
+    // Delay some actions, https://stackoverflow.com/a/4367037/6543935
+    function throttle( f, delay ) {
+        var timer = null;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout( timer );
+            timer = window.setTimeout( function() {
+                f.apply( context, args );
+            },
+            delay || 500 );
+        };
+    }
+
     // Render math on View Mode
-    mw.hook( 'wikipage.categories' ).add( SimpleMathJax );
+    mw.hook( 'wikipage.categories' ).add( SimpleMathJax() );
+    mw.hook( 'wikipage.content' ).add( function() {
+        $( document ).ready( throttle( function() { MathJax.typesetPromise(); }, 500 ) );
+    } );
+
     // Render math on Visual Editor initial activation
-    mw.hook( 've.activationComplete' ).add( SimpleMathJax );
-    // Use Crtl+Shift to render math after formula is changed on VE
+    mw.hook( 've.activationComplete' ).add( SimpleMathJax() );
+    // Render math after a formula is changed in VE
     mw.hook( 've.activationComplete' ).add( function () {
-        
-        $(document).keyup( throttle(function() {
-            MathJax.typesetPromise();
-        }, 500) );
-        $(window).click( throttle(function() {
-            MathJax.typesetPromise();
-        }, 500) );
-        $(window).on( "mousemove", throttle(function() {
-            MathJax.typesetPromise();
-        }, 500) );
-
-        // https://stackoverflow.com/a/4367037/6543935
-        function throttle(f, delay){
-            var timer = null;
-            return function(){
-                var context = this, args = arguments;
-                clearTimeout(timer);
-                timer = window.setTimeout(function(){
-                    f.apply(context, args);
-                },
-                delay || 500);
-            };
-        }
+        $( document ).ready( throttle( function() { MathJax.typesetPromise(); }, 500 ) );
+        $( document ).keyup( throttle( function() { MathJax.typesetPromise(); }, 500 ) );
+        $( window ).click( throttle( function() { MathJax.typesetPromise(); }, 500 ) );
+        $( window ).on( "mousemove", throttle( function() { MathJax.typesetPromise(); }, 500 ) );
     });
-}( jQuery )); // Край на скрипта
-
+}( jQuery ) );
