@@ -140,29 +140,18 @@
     mw.hook( 've.activationComplete' ).add( SimpleMathJax );
     // Use Crtl+Shift to render math after formula is changed on VE
     mw.hook( 've.activationComplete' ).add( function () {
+        $(document).on("keypress", function (e) {
+            setInterval(async function () {
+                await MathJax.typesetPromise();
+            }, 100);
+        });
+        /**
         function KeyPress(e) { // https://stackoverflow.com/a/16006607/6543935
               var evtobj = window.event? event : e
               if (evtobj.shiftKey && evtobj.ctrlKey) MathJax.typesetPromise();
         }
         document.onkeydown = KeyPress;
+        **/
     });
-    /**
-     * Yhis is too heavy
-    mw.hook( 've.activationComplete' ).add( function () {
-        setInterval(async function () {
-            await MathJax.typesetPromise();
-        }, 5000);
-    });
-    mw.hook( 've.activationComplete' ).add( function () {
-        setTimeout(async function () {
-            await MathJax.typesetPromise();
-        }, 5000);
-    });
-    mw.hook( 've.activationComplete' ).add( function () {
-        $("span:contains('[math]')").click( function(){
-            MathJax.typesetPromise();
-        });
-    });
-    **/
 }( jQuery )); // Край на скрипта
 
